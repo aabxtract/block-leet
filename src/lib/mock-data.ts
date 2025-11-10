@@ -73,6 +73,30 @@ contract Counter {
     // Your implementation here
 }`
       },
+      {
+        id: '1-4',
+        slug: 'owner-contract',
+        title: 'Owner Contract',
+        description: 'Create a contract with an owner. Only the owner should be able to call a specific function. This introduces msg.sender and simple access control.',
+        difficulty: 'Easy',
+        points: 25,
+        section: 'Solidity Basics',
+        starterCode: `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract Owner {
+    address public owner;
+    string public secretMessage;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function setSecretMessage(string memory _message) public {
+        // Your implementation here: only the owner should be able to set the message
+    }
+}`
+      },
     ]
   },
   {
@@ -117,10 +141,34 @@ pragma solidity ^0.8.20;
 contract MintableToken {
     // Your implementation here
 }`
+        },
+        {
+            id: '2-3',
+            slug: 'approvable-token',
+            title: 'Approvable Token',
+            description: 'Extend an ERC20 token by implementing the `approve` and `transferFrom` functions. This is a core concept for enabling smart contracts to interact with tokens on a user\'s behalf.',
+            difficulty: 'Medium',
+            points: 70,
+            section: 'ERC20 Tokens',
+            starterCode: `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+interface IFullERC20 {
+    function totalSupply() external view returns (uint256);
+    function balanceOf(address account) external view returns (uint256);
+    function transfer(address recipient, uint256 amount) external returns (bool);
+    function allowance(address owner, address spender) external view returns (uint256);
+    function approve(address spender, uint256 amount) external returns (bool);
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+}
+
+contract ApprovableToken is IFullERC20 {
+    // Your implementation here
+}`
         }
     ]
   },
-   {
+  {
     id: 'section-3',
     title: 'Advanced Concepts',
     description: 'Challenge yourself with more complex smart contract patterns.',
@@ -139,7 +187,78 @@ pragma solidity ^0.8.20;
 contract Voting {
     // Your implementation here
 }`
+        },
+        {
+            id: '3-2',
+            slug: 're-entrancy-guard',
+            title: 'Re-entrancy Guard',
+            description: 'Implement a simple guard to prevent re-entrancy attacks. You will create a modifier that protects a function from being called again while it is still executing.',
+            difficulty: 'Hard',
+            points: 120,
+            section: 'Advanced Concepts',
+            starterCode: `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract ReentrancyGuard {
+    bool internal locked;
+
+    modifier noReentrant() {
+        // Your implementation here
+        _;
+        // And here
+    }
+
+    // Example function to protect
+    function protectedFunction() public noReentrant {
+        // some logic
+    }
+}`
         }
+    ]
+  },
+  {
+    id: 'section-4',
+    title: 'NFTs (ERC721)',
+    description: 'Explore the world of unique digital assets with Non-Fungible Tokens.',
+    problems: [
+      {
+        id: '4-1',
+        slug: 'basic-nft',
+        title: 'Basic NFT',
+        description: 'Create a basic ERC721 contract. Implement the `mint` function to create new NFTs and the `ownerOf` function to check token ownership.',
+        difficulty: 'Medium',
+        points: 80,
+        section: 'NFTs (ERC721)',
+        starterCode: `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+interface IERC721 {
+    function ownerOf(uint256 tokenId) external view returns (address owner);
+}
+
+contract BasicNFT is IERC721 {
+    // Your implementation here
+}`
+      },
+      {
+        id: '4-2',
+        slug: 'nft-with-metadata',
+        title: 'NFT with Metadata',
+        description: 'Extend your NFT contract to include metadata. Each token should have a unique URI pointing to a JSON file with its properties (name, description, image).',
+        difficulty: 'Hard',
+        points: 110,
+        section: 'NFTs (ERC721)',
+        starterCode: `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+interface IERC721Metadata {
+    function tokenURI(uint256 tokenId) external view returns (string memory);
+}
+
+contract MetadataNFT is IERC721Metadata {
+    // Your implementation here
+}`
+      }
     ]
   }
 ];
